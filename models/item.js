@@ -8,15 +8,19 @@ const itemSchema = mongoose.Schema({
     },
     category: {
         type: String,
-        required:true
+    },
+    sub_category: {
+        type: String
     },
     restaurant_id:{
-        type: String,
-        required:true
+        type: String
     },
     price: {
         type: Number,
         required:true
+    },
+    nutritition_details:{
+        type:Object
     }
 });
 itemSchema.plugin(timestamps);
