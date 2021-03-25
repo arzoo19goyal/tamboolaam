@@ -15,7 +15,6 @@ const groupitemSchema = mongoose.Schema({
     },
     price: {
         type: Number,
-        required:true
     }
     }],
     recurring_frequency:{
@@ -31,6 +30,19 @@ const groupitemSchema = mongoose.Schema({
         type: String
     },
     restaurant_id:{
+        type: String
+    },
+    price: {
+        type: Number,
+    },
+    name: {
+        type: String,
+        required:true
+    },
+    category: {
+        type: String,
+    },
+    sub_category: {
         type: String
     },
     nutritition_details:{

@@ -10,10 +10,10 @@ const orderSchema = mongoose.Schema({
     category: {
       type: String,
     },
-    item_id: {
+    item_type: {
       type: String,
     },
-    recurrring_item_id: {
+    item_id: {
       type: String,
     },
     price: {
