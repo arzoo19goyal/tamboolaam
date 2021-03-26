@@ -74,6 +74,12 @@ const orderSchema = mongoose.Schema({
   user_id: {
     type: String
   },
+  user_phone: {
+    type: String
+  },
+  user_name: {
+    type: String
+  },
 
 });
 
