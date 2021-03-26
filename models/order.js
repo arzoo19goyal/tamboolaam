@@ -2,59 +2,90 @@ const mongoose = require('mongoose');
 var timestamps = require('mongoose-timestamp');
 
 const orderSchema = mongoose.Schema({
-    items:[{
+  items: [{
     name: {
-        type: String,
-        required:true
+      type: String,
+      required: true
     },
     category: {
-        type: String,
-        required:true
+      type: String,
     },
-    item_id:{
-        type: String,
-        required:true
+    item_type: {
+      type: String,
+    },
+    item_id: {
+      type: String,
     },
     price: {
-        type: Number,
-        required:true
+      type: Number,
+      required: true
     }
-    }],
-    order_id:{
-        type:String
-    },
-    driver_id:{
-        type:String
-    },
-    restaurant_id:{
-        type:String
-    },
-    sub_total:{
-        type:Number
-    },
-    final_total:{
-        type:Number
-    },
-    delivery_address: {
+  }],
+  order_id: {
+    type: String
+  },
+  driver_id: {
+    type: String
+  },
+  restaurant_id: {
+    type: String
+  },
+  sub_total: {
+    type: Number
+  },
+  final_total: {
+    type: Number
+  },
+  delivery_address: {
     line1: {
-        type: String
+      type: String
     },
     line2: {
-        type: String
+      type: String
     },
     line3: {
-        type: String
+      type: String
     },
     lat: {
-        type: String
+      type: String
     },
     long: {
-        type: String
+      type: String
+    }
+  },
+  order_type: {
+    type: String
+  },
+  order_sub_type: {
+    type: String
+  },
+  delivery_type: {
+    type: String
+  },
+  status: {
+    type: String
+  },
+  delivery_date: {
+    type: Date
+  },
+  recurring_details: {
+    recurring_id: {
+      type: String
+    }, 
+    recurring_frequency: {
+      type: String
     },
-    order_type:{type: String},
-    delivery_type:{type: String},
-    status:{type: String}
-}   
+    recurring_type: {
+      type: String
+    },
+    recurring_period: {
+      type: String
+    },
+    recurring_period_unit: {
+      type: String
+    }
+  }
+
 });
 
 orderSchema.plugin(timestamps);
