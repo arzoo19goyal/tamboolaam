@@ -30,6 +30,9 @@ const orderSchema = mongoose.Schema({
   restaurant_id: {
     type: String
   },
+  restaurant_name: {
+    type: String
+  },
   sub_total: {
     type: Number
   },
@@ -66,6 +69,9 @@ const orderSchema = mongoose.Schema({
     type: String
   },
   delivery_date: {
+    type: Date
+  },
+  order_date: {
     type: Date
   },
   subscription_id:{
