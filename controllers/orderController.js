@@ -16,8 +16,6 @@ const placedOrder = async (req, res, next)=>{
 }
 
 
-
-
 const getAllOrders = async (req, res, next) => {
     try {
         const page = Number(req.query.limit)*((req.query.page)-1) || 0;
@@ -45,7 +43,23 @@ const getAllOrders = async (req, res, next) => {
     }
 }
 
+const updateOrderStatus = async (req, res, next)=>{
+    try{
+        const update = await Order.findByIdAndUpdate(req.params.order_id, {status: req.body.order_status});
+        if(update){
+            return res.status(user ? 200 : 400).send({
+                'response': {
+                    'message': user ? "Order updated successfully" : "no order"
+                }
+            })
+        }
+    } catch(e){
+        next(e);
+    }
+}
+
 module.exports = {
     placedOrder,
-    getAllOrders
+    getAllOrders,
+    updateOrderStatus
 }

@@ -54,8 +54,7 @@ const orderSchema = mongoose.Schema({
     order_type:{type: String},
     delivery_type:{type: String},
     status:{type: String}
-}
-    
+}   
 });
 
 orderSchema.plugin(timestamps);
