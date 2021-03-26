@@ -1,13 +1,17 @@
 const { Restaurant } = require('../models/restaurant');
 
 const insertRestaurant = async (req, res, next)=>{
-    const newRestaurant = await new Restaurant(req.body);
-    await newRestaurant.save();
-    return res.status(200).send({
-        'response': {
-            'restaurant': newRestaurant
-        }
-    })
+    try{
+        const newRestaurant = await new Restaurant(req.body);
+        await newRestaurant.save();
+        return res.status(200).send({
+            'response': {
+                'restaurant': newRestaurant
+            }
+        })
+    } catch(e) {
+        next(e);
+    }
 }
 
 const getAllRestaurants = async (req, res, next) => {
@@ -56,11 +60,13 @@ const upadteRestaurant = async (req, res, next) => {
     try{
         const restaurant = await Restaurant.findOneAndUpdate({_id: req.body.id},{$set: req.body});
         console.log(restaurant);
-        return res.status(200).send({
-            'response': {
-                'message': "Updated successfully"
-            }
-        })
+        if(restaurant){
+            return res.status(restaurant ? 200 : 400).send({
+                'response': {
+                    'message': restaurant ? "Updated successfully": "restaurant not found"
+                }
+            })
+        }
         
     } catch(e){
         next(e);
@@ -69,7 +75,7 @@ const upadteRestaurant = async (req, res, next) => {
 
 const deleteRestaurant = async (req, res, next)=>{
     try{
-        await Restaurant.findByIdAndDelete(req.params.id)
+        await Restaurant.findByIdAndDelete(req.body.id)
         return res.status(200).send({
             'response': {
                 'message': 'Restaurant deleted'

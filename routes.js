@@ -11,7 +11,7 @@ const restaurantRoutes = require('./routes/restaurantRoute');
 router.use('/v1/sample', sampleRoute);
 router.use('/v1/user', userRoutes);
 router.use('/v1/order', orderRoutes);
-router.use('/v1/items', itemRoutes);
+router.use('/v1/item', itemRoutes);
 router.use('/v1/restaurant', restaurantRoutes);
 
 

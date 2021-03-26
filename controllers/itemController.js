@@ -1,13 +1,18 @@
 const {Item} = require('../models/item');
 
 const insertItem = async (req, res, next)=>{
-    const newItem = await new Item(req.body);
-    await newItem.save();
-    return res.status(200).send({
-        'response': {
-            'Item': newItem
-        }
-    })
+    try{
+        const newItem = await new Item(req.body);
+        await newItem.save();
+
+        return res.status(200).send({
+            'response': {
+                'Item': newItem
+            }
+        })
+    } catch(e){
+        next(e)
+    }
 }
 
 const getAllItems = async (req, res, next) => {
@@ -40,7 +45,7 @@ const getAllItems = async (req, res, next) => {
 
 const getItem = async (req, res, next) => {
     try {
-        const item = await Item.findById(req.params.id);
+        const item = await Item.findById(req.body.id);
         if (item) {
             return res.status(item ? 200 : 400).send({
                 'response': {
@@ -71,7 +76,7 @@ const updateItem = async (req, res, next) => {
 
 const deleteItem = async (req, res, next)=>{
     try{
-        await Item.findByIdAndDelete(req.params.id)
+        await Item.findByIdAndDelete(req.body.id)
         return res.status(200).send({
             'response': {
                 'message': 'Item deleted'

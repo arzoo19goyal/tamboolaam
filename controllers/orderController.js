@@ -43,13 +43,42 @@ const getAllOrders = async (req, res, next) => {
     }
 }
 
-const updateOrderStatus = async (req, res, next)=>{
+const getOrder = async (req, res, next)=> {
     try{
-        const update = await Order.findByIdAndUpdate(req.params.order_id, {status: req.body.order_status});
-        if(update){
-            return res.status(user ? 200 : 400).send({
+        const order = await Order.findById(req.params.id);
+        if(order){
+            return res.status(order ? 200 : 400).send({
                 'response': {
-                    'message': user ? "Order updated successfully" : "no order"
+                    'message': order ? order : "no order found"
+                }
+            })        }
+    } catch(e) {
+        next(e);
+    }
+}
+
+const updateOrder = async (req, res, next)=>{
+    try{
+        const update = await Order.findByIdAndUpdate(req.body.order_id, { $set:req.body});
+        if(update){
+            return res.status(update ? 200 : 400).send({
+                'response': {
+                    'message': update ? "Order updated successfully" : "no order"
+                }
+            })
+        }
+    } catch(e){
+        next(e);
+    }
+}
+
+const deleteOrder = async (req, res, next)=>{
+    try{
+        const order = await Order.findOneAndDelete({_id: req.body.id});
+        if(order){
+            return res.status(order ? 200: 400).send({
+                'response': {
+                    'message': order ? 'Order deleted' : "order not found"
                 }
             })
         }
@@ -61,5 +90,7 @@ const updateOrderStatus = async (req, res, next)=>{
 module.exports = {
     placedOrder,
     getAllOrders,
-    updateOrderStatus
+    getOrder,
+    updateOrder,
+    deleteOrder
 }

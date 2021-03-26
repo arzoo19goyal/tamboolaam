@@ -3,7 +3,7 @@ const router = express.Router();
 
 const {getAllRestaurants, getRestaurant, insertRestaurant, upadteRestaurant, deleteRestaurant} = require('../controllers/restaurantController');
 
-router.post('/invokeRestaurant', insertRestaurant)
+router.post('/insertRestaurant', insertRestaurant)
 
 router.get('/getAllRestaurants', getAllRestaurants);
 
