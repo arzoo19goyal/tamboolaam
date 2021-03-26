@@ -68,22 +68,8 @@ const orderSchema = mongoose.Schema({
   delivery_date: {
     type: Date
   },
-  recurring_details: {
-    recurring_id: {
-      type: String
-    }, 
-    recurring_frequency: {
-      type: String
-    },
-    recurring_type: {
-      type: String
-    },
-    recurring_period: {
-      type: String
-    },
-    recurring_period_unit: {
-      type: String
-    }
+  subscription_id:{
+    type: String
   }
 
 });
