@@ -70,7 +70,10 @@ const orderSchema = mongoose.Schema({
   },
   subscription_id:{
     type: String
-  }
+  },
+  user_id: {
+    type: String
+  },
 
 });
 

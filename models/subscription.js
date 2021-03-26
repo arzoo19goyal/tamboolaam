@@ -41,6 +41,29 @@ const subscriptionSchema = mongoose.Schema({
     end_date: {
         type: Date
     },
+    user_id: {
+        type: String
+    },
+    driver_id: {
+        type: String
+    },
+    delivery_address: {
+        line1: {
+          type: String
+        },
+        line2: {
+          type: String
+        },
+        line3: {
+          type: String
+        },
+        lat: {
+          type: String
+        },
+        long: {
+          type: String
+        }
+    },
 });
 subscriptionSchema.plugin(timestamps);
 exports.Subscription = mongoose.model('Subscription', subscriptionSchema);
