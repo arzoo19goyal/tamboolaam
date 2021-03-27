@@ -24,6 +24,9 @@ const getAllOrders = async (req, res, next) => {
         if(req.query.order_type){
             query.order_type=req.query.order_type
         }
+        if(req.query.status){
+            query.status=req.query.status
+        }
         const allOrders = await Order.find(query).skip(page).limit(limit);
         if(allOrders){
             console.log(allOrders);
