@@ -9,9 +9,9 @@ router.get('/getAllSubscriptions', getAllSubscriptions);
 
 router.get('/:id', getSubscription)
 
-router.post('/updateSubscription', updateSubscription);
+router.put('/updateSubscription/:id', updateSubscription);
 
-router.post('/deleteSubscription', deleteSubscription);
+router.delete('/deleteSubscription/:id', deleteSubscription);
 
 
 module.exports = router;

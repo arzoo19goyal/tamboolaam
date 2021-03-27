@@ -120,7 +120,7 @@ const getSubscription = async (req, res, next)=> {
 
 const updateSubscription = async (req, res, next)=>{
     try{
-        const update = await Subscription.findByIdAndUpdate(req.body.subscription_id, { $set:req.body});
+        const update = await Subscription.findByIdAndUpdate(req.params.id, { $set:req.body});
         if(update){
             return res.status(update ? 200 : 400).send({
                 'response': {
@@ -135,7 +135,7 @@ const updateSubscription = async (req, res, next)=>{
 
 const deleteSubscription = async (req, res, next)=>{
     try{
-        const subscription = await Subscription.findOneAndDelete({_id: req.body.id});
+        const subscription = await Subscription.findOneAndDelete({_id: req.params.id});
         if(subscription){
             return res.status(subscription ? 200: 400).send({
                 'response': {
