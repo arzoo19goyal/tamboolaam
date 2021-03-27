@@ -17,6 +17,9 @@ const subscriptionSchema = mongoose.Schema({
     restaurant_id:{
         type: String
     },
+    restaurant_name:{
+        type: String
+    },
     total: {
         type: Number,
     },
@@ -26,10 +29,10 @@ const subscriptionSchema = mongoose.Schema({
     name: {
         type: String,
     },
-    category: {
+    subscription_type: {
         type: String,
     },
-    sub_category: {
+    subscription_sub_type: {
         type: String
     },
     nutritition_details:{
@@ -42,6 +45,12 @@ const subscriptionSchema = mongoose.Schema({
         type: Date
     },
     user_id: {
+        type: String
+    },
+    user_phone: {
+        type: String
+    },
+    user_name: {
         type: String
     },
     driver_id: {

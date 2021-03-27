@@ -1,9 +1,35 @@
 const {Subscription} = require('../models/subscription');
+const {Order} = require('../models/order');
+const { ApiGatewayManagementApi } = require('aws-sdk');
 
 const placedSubscription = async (req, res, next)=>{
     try{
-        const subscription = await new Subscription(req.body);
+        var body = req.body;
+        var order = body.order;
+        var deliveryDates = body.delivery_dates;
+        delete body['order'];
+        delete body['delivery_dates'];
+        body.start_date = deliveryDates[0];
+        body.end_date = deliveryDates[deliveryDates.length - 1];
+        const subscription = await new Subscription(body);
         await subscription.save();
+        var noOfWeeks =  Number(req.body.recurring_period)*(req.body.recurring_unit == 'month' ? 4 : 1);
+        var noOfOrders = Number(req.body.recurring_frequency) * noOfWeeks;
+        var orders = [];
+
+        for(let i = 0; i < noOfOrders; i++) {
+            order.delivery_date = deliveryDates[i];
+            order.subscription_id = subscription._id;
+            order.delivery_address = subscription.delivery_address;
+            order.user_phone = subscription.user_phone;
+            order.user_name = subscription.user_name;
+            order.order_type = "subscription";
+            order.order_sub_type = subscription.subscription_type;
+            order.restaurant_name = subscription.restaurant_name;
+            order.restaurant_id = subscription.restaurant_id;
+            orders.push(order);
+        }
+        await Order.insertMany(orders);
         return res.status(200).send({
             'response': {
                 'message': "subscription",

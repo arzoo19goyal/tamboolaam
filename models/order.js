@@ -21,9 +21,6 @@ const orderSchema = mongoose.Schema({
       required: true
     }
   }],
-  order_id: {
-    type: String
-  },
   driver_id: {
     type: String
   },
@@ -66,7 +63,8 @@ const orderSchema = mongoose.Schema({
     type: String
   },
   status: {
-    type: String
+    type: String,
+    default:'placed'
   },
   delivery_date: {
     type: Date

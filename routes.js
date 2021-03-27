@@ -5,6 +5,7 @@ const sampleRoute = require('./routes/sampleRoute');
 const userRoutes = require('./routes/userRoute');
 const orderRoutes = require('./routes/orderRoute');
 const itemRoutes = require('./routes/itemRoute');
+const subscriptionRoutes = require('./routes/subscriptionRoute');
 const restaurantRoutes = require('./routes/restaurantRoute');
 
 
@@ -13,6 +14,7 @@ router.use('/v1/user', userRoutes);
 router.use('/v1/order', orderRoutes);
 router.use('/v1/item', itemRoutes);
 router.use('/v1/restaurant', restaurantRoutes);
+router.use('/v1/subscription', subscriptionRoutes);
 
 
 module.exports = router;

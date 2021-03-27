@@ -20,8 +20,11 @@ const getAllOrders = async (req, res, next) => {
     try {
         const page = Number(req.query.limit)*((req.query.page)-1) || 0;
         const limit = Number(req.query.limit) || 10;
-
-        const allOrders = await Order.find().skip(page).limit(limit);
+        var query = {}
+        if(req.query.order_type){
+            query.order_type=req.query.order_type
+        }
+        const allOrders = await Order.find(query).skip(page).limit(limit);
         if(allOrders){
             console.log(allOrders);
              return res.status(200).send({
