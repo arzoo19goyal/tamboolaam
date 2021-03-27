@@ -15,6 +15,15 @@ const placedSubscription = async (req, res, next)=>{
         await subscription.save();
         var noOfWeeks =  Number(req.body.recurring_period)*(req.body.recurring_unit == 'month' ? 4 : 1);
         var noOfOrders = Number(req.body.recurring_frequency) * noOfWeeks;
+        if(noOfOrders != deliveryDates.length){
+            return res.status(400).send({
+                'response': {
+                    'success':false,
+                    'message': "add all delivery dates",
+                    'subscription': subscription
+                }
+            })
+        }
         var orders = [];
 
         for(let i = 0; i < noOfOrders; i++) {
@@ -24,6 +33,7 @@ const placedSubscription = async (req, res, next)=>{
             order.user_phone = subscription.user_phone;
             order.user_name = subscription.user_name;
             order.order_type = "subscription";
+            order.delivery_type = "delivery";
             order.order_sub_type = subscription.subscription_type;
             order.restaurant_name = subscription.restaurant_name;
             order.restaurant_id = subscription.restaurant_id;
@@ -32,7 +42,8 @@ const placedSubscription = async (req, res, next)=>{
         await Order.insertMany(orders);
         return res.status(200).send({
             'response': {
-                'message': "subscription",
+                'success':true,
+                'message': "subscription added",
                 'subscription': subscription
             }
         })
@@ -46,14 +57,38 @@ const getAllSubscriptions = async (req, res, next) => {
     try {
         const page = Number(req.query.limit)*((req.query.page)-1) || 0;
         const limit = Number(req.query.limit) || 10;
+        var query = {}
+        if(req.query.status){
+            query.status=req.query.status
+        }
+        if(req.query.subscription_type){
+            query.subscription_type=req.query.subscription_type
+        }
+        if(req.query.subscription_sub_type){
+            query.subscription_sub_type=req.query.subscription_sub_type
+        }
+        if(req.query.user_id){
+            query.user_id=req.query.user_id
+        }
+        if(req.query.restaurant_id){
+            query.restaurant_id=req.query.restaurant_id
+        }
+        if(req.query.driver_id){
+            query.driver_id=req.query.driver_id
+        }
+        if(req.query.recurring_type){
+            query.recurring_type=req.query.recurring_type
+        }
 
-        const allSubscriptions = await Subscription.find().skip(page).limit(limit);
+        const allSubscriptions = await Subscription.find(query).skip(page).limit(limit);
+        var count = await Order.count(query);
         if(allSubscriptions){
             console.log(allSubscriptions);
              return res.status(200).send({
                 'response': {
                     'message': "allSubscriptions",
-                    'subscription': allSubscriptions
+                    'subscription': allSubscriptions,
+                    'count':count
                 }
             })
         }

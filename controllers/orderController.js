@@ -27,6 +27,27 @@ const getAllOrders = async (req, res, next) => {
         if(req.query.status){
             query.status=req.query.status
         }
+        if(req.query.order_type){
+            query.order_type=req.query.order_type
+        }
+        if(req.query.order_sub_type){
+            query.order_sub_type=req.query.order_sub_type
+        }
+        if(req.query.subscription_id){
+            query.subscription_id=req.query.subscription_id
+        }
+        if(req.query.user_id){
+            query.user_id=req.query.user_id
+        }
+        if(req.query.restaurant_id){
+            query.restaurant_id=req.query.restaurant_id
+        }
+        if(req.query.delivery_type){
+            query.delivery_type=req.query.delivery_type
+        }
+        if(req.query.driver_id){
+            query.driver_id=req.query.driver_id
+        }
         const allOrders = await Order.find(query).skip(page).limit(limit);
         var count = await Order.count(query);
         if(allOrders){

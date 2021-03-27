@@ -73,6 +73,10 @@ const subscriptionSchema = mongoose.Schema({
           type: String
         }
     },
+    status:{
+        type: String,
+        default:'placed'
+    }
 });
 subscriptionSchema.plugin(timestamps);
 exports.Subscription = mongoose.model('Subscription', subscriptionSchema);
