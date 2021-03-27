@@ -19,14 +19,27 @@ const getAllItems = async (req, res, next) => {
     try {
         const page = Number(req.query.limit)*((req.query.page)-1) || 0;
         const limit = Number(req.query.limit) || 10;
+        var query = {}
 
-        const allItems = await Item.find().skip(page).limit(limit);
+        if(req.query.sub_category){
+            query.sub_category = req.query.sub_category;
+        }
+        if(req.query.category){
+            query.category = req.query.category;
+        }
+        if(req.query.restaurant_id){
+            query.restaurant_id = req.query.restaurant_id;
+        }
+
+        const allItems = await Item.find(query).skip(page).limit(limit);
+        var count = await Item.count(query);
         if(allItems){
-            console.log(allItems);
+            // console.log(allItems);
              return res.status(200).send({
                 'response': {
                     'message': "All items",
-                    'result': allItems
+                    'result': allItems,
+                    'count': count
                 }
             })
         }
@@ -45,7 +58,7 @@ const getAllItems = async (req, res, next) => {
 
 const getItem = async (req, res, next) => {
     try {
-        const item = await Item.findById(req.body.id);
+        const item = await Item.findById(req.params.id);
         if (item) {
             return res.status(item ? 200 : 400).send({
                 'response': {
@@ -61,7 +74,7 @@ const getItem = async (req, res, next) => {
 
 const updateItem = async (req, res, next) => {
     try{
-        const item = await Item.findOneAndUpdate({_id: req.body.id},{$set: req.body});
+        const item = await Item.findByIdAndUpdate(req.params.id,{$set: req.body});
         console.log(item);
         return res.status(200).send({
             'response': {
@@ -76,7 +89,7 @@ const updateItem = async (req, res, next) => {
 
 const deleteItem = async (req, res, next)=>{
     try{
-        await Item.findByIdAndDelete(req.body.id)
+        await Item.findByIdAndDelete(req.params.id)
         return res.status(200).send({
             'response': {
                 'message': 'Item deleted'

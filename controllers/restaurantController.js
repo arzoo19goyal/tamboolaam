@@ -18,14 +18,25 @@ const getAllRestaurants = async (req, res, next) => {
     try {
         const page = Number(req.query.limit) * ((req.query.page) - 1) || 0;
         const limit = Number(req.query.limit) || 10;
+        var query = {}
 
-        const allRestaurants = await Restaurant.find().skip(page).limit(limit);
+        if(req.body.address){
+            query.address = req.body.address;
+        }
+        if(req.body.staff){
+            query.staff = req.body.staff;
+        }
+
+        const allRestaurants = await Restaurant.find(query).skip(page).limit(limit);
+        var count = await Restaurant.count(query);
+
         if (allRestaurants) {
             console.log(allRestaurants);
             return res.status(200).send({
                 'response': {
                     'message': "All restaurants",
-                    'result': allRestaurants
+                    'result': allRestaurants,
+                    'count': count
                 }
             })
         }
@@ -58,7 +69,7 @@ const getRestaurant = async (req, res, next) => {
 
 const upadteRestaurant = async (req, res, next) => {
     try{
-        const restaurant = await Restaurant.findOneAndUpdate({_id: req.body.id},{$set: req.body});
+        const restaurant = await Restaurant.findByIdAndUpdate(req.params.id,{$set: req.body});
         console.log(restaurant);
         if(restaurant){
             return res.status(restaurant ? 200 : 400).send({
@@ -75,7 +86,7 @@ const upadteRestaurant = async (req, res, next) => {
 
 const deleteRestaurant = async (req, res, next)=>{
     try{
-        await Restaurant.findByIdAndDelete(req.body.id)
+        await Restaurant.findByIdAndDelete(req.params.id)
         return res.status(200).send({
             'response': {
                 'message': 'Restaurant deleted'

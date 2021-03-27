@@ -9,9 +9,9 @@ router.get('/getAllOrders', getAllOrders);
 
 router.get('/:id', getOrder)
 
-router.post('/updateOrder', updateOrder);
+router.put('/:id', updateOrder);
 
-router.post('/deleteOrder', deleteOrder);
+router.delete('/:id', deleteOrder);
 
 
 module.exports = router;
