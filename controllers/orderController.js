@@ -28,6 +28,7 @@ const getAllOrders = async (req, res, next) => {
             query.status=req.query.status
         }
         const allOrders = await Order.find(query).skip(page).limit(limit);
+        var count = await Order.count(query);
         if(allOrders){
             console.log(allOrders);
              return res.status(200).send({
