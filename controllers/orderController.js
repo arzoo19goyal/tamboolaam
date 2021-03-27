@@ -34,7 +34,8 @@ const getAllOrders = async (req, res, next) => {
              return res.status(200).send({
                 'response': {
                     'message': "allOrders",
-                    'order': allOrders
+                    'order': allOrders,
+                    "count":count
                 }
             })
         }
