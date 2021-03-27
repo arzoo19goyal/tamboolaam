@@ -45,7 +45,7 @@ const groupitemSchema = mongoose.Schema({
     sub_category: {
         type: String
     },
-    nutritition_details:{
+    nutrition_details:{
         type:Object
     }
 });

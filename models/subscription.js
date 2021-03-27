@@ -35,7 +35,7 @@ const subscriptionSchema = mongoose.Schema({
     subscription_sub_type: {
         type: String
     },
-    nutritition_details:{
+    nutrition_details:{
         type:Object
     },
     start_date: {
