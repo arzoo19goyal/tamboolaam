@@ -19,7 +19,7 @@ const itemSchema = mongoose.Schema({
         type: Number,
         required:true
     },
-    nutritition_details:{
+    nutrition_details:{
         type:Object
     }
 });

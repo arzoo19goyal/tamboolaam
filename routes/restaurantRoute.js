@@ -9,8 +9,8 @@ router.get('/getAllRestaurants', getAllRestaurants);
 
 router.get('/:id', getRestaurant);
 
-router.post('/updateRestaurant', upadteRestaurant)
+router.put('/:id', upadteRestaurant)
 
-router.post('/deleteRestaurant', deleteRestaurant)
+router.delete('/:id', deleteRestaurant)
 
 module.exports = router;

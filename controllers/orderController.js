@@ -27,9 +27,6 @@ const getAllOrders = async (req, res, next) => {
         if(req.query.status){
             query.status=req.query.status
         }
-        if(req.query.order_type){
-            query.order_type=req.query.order_type
-        }
         if(req.query.order_sub_type){
             query.order_sub_type=req.query.order_sub_type
         }
@@ -88,7 +85,7 @@ const getOrder = async (req, res, next)=> {
 
 const updateOrder = async (req, res, next)=>{
     try{
-        const update = await Order.findByIdAndUpdate(req.body.order_id, { $set:req.body});
+        const update = await Order.findByIdAndUpdate(req.params.id, { $set:req.body});
         if(update){
             return res.status(update ? 200 : 400).send({
                 'response': {
@@ -103,7 +100,7 @@ const updateOrder = async (req, res, next)=>{
 
 const deleteOrder = async (req, res, next)=>{
     try{
-        const order = await Order.findOneAndDelete({_id: req.body.id});
+        const order = await Order.findByIdAndDelete(req.params.id);
         if(order){
             return res.status(order ? 200: 400).send({
                 'response': {
