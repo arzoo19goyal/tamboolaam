@@ -15,7 +15,11 @@ const groupitemSchema = mongoose.Schema({
     },
     price: {
         type: Number,
-    }
+    },
+    quantity: {
+        type: Number,
+        required: true
+      }
     }],
     recurring_frequency:{
         type: String
