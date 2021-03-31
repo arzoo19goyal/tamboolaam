@@ -2,12 +2,16 @@ const {Item} = require('../models/item');
 
 const insertItem = async (req, res, next)=>{
     try{
-        const newItem = await new Item(req.body);
-        await newItem.save();
+        // const newItem = await new Item(req.body);
+        // await newItem.save();
+
+        const body = req.body;
+        let items = body.items
+        let multipleItems = await Item.insertMany(items);
 
         return res.status(200).send({
             'response': {
-                'Item': newItem
+                'Item': multipleItems
             }
         })
     } catch(e){

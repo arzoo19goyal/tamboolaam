@@ -2,11 +2,14 @@ const { Restaurant } = require('../models/restaurant');
 
 const insertRestaurant = async (req, res, next)=>{
     try{
-        const newRestaurant = await new Restaurant(req.body);
-        await newRestaurant.save();
+        const body = req.body;
+        let restaurants = body.restaurants
+        let multipleRestaurants = await Restaurant.insertMany(restaurants);
+        // const newRestaurant = await new Restaurant(req.body);
+        // await newRestaurant.save();
         return res.status(200).send({
             'response': {
-                'restaurant': newRestaurant
+                'restaurant': multipleRestaurants
             }
         })
     } catch(e) {

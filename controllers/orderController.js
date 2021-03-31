@@ -1,20 +1,22 @@
 const {Order} = require('../models/order');
 
-const placedOrder = async (req, res, next)=>{
+const placeOrder = async (req, res, next)=>{
     try{
-        const order = await new Order(req.body);
-        await order.save();
+        const body = req.body;
+        let orders = body.orders
+        let multipleOrders = await Order.insertMany(orders)
+        // const order = await new Order(req.body);
+        // await order.save();
         return res.status(200).send({
             'response': {
                 'message': "order",
-                'order': order
+                'order': multipleOrders,
             }
         })
     } catch(ex){
         next(ex);
     }
 }
-
 
 const getAllOrders = async (req, res, next) => {
     try {
@@ -114,7 +116,7 @@ const deleteOrder = async (req, res, next)=>{
 }
 
 module.exports = {
-    placedOrder,
+    placeOrder,
     getAllOrders,
     getOrder,
     updateOrder,
