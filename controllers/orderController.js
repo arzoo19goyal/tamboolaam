@@ -6,7 +6,6 @@ const placeOrder = async (req, res, next)=>{
         await order.save();
         return res.status(200).send({
             'response': {
-                'message': "order",
                 'order': order,
             }
         })
@@ -20,17 +19,16 @@ const placeOrders = async (req, res, next)=>{
         const body = req.body;
         let orders = body.orders
         let multipleOrders = await Order.insertMany(orders)
-
-        return res.status(200).send({
+       return res.status(200).send({
             'response': {
-                'message': "order",
-                'order': multipleOrders,
+                'order': multipleOrders
             }
         })
     } catch(ex){
         next(ex);
     }
 }
+
 
 const getAllOrders = async (req, res, next) => {
     try {
