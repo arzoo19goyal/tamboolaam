@@ -2,9 +2,20 @@ const {Item} = require('../models/item');
 
 const insertItem = async (req, res, next)=>{
     try{
-        // const newItem = await new Item(req.body);
-        // await newItem.save();
+        const newItem = await new Item(req.body);
+        await newItem.save();
+        return res.status(200).send({
+            'response': {
+                'Item': newItem
+            }
+        })
+    } catch(e){
+        next(e);
+    }
+}
 
+const insertItems = async (req, res, next)=>{
+    try{
         const body = req.body;
         let items = body.items
         let multipleItems = await Item.insertMany(items);
@@ -107,6 +118,7 @@ const deleteItem = async (req, res, next)=>{
 
 module.exports = {
     insertItem,
+    insertItems,
     getAllItems,
     getItem,
     updateItem,

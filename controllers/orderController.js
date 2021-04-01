@@ -2,11 +2,25 @@ const {Order} = require('../models/order');
 
 const placeOrder = async (req, res, next)=>{
     try{
+        const order = await new Order(req.body);
+        await order.save();
+        return res.status(200).send({
+            'response': {
+                'message': "order",
+                'order': order,
+            }
+        })
+    } catch(e){
+        next(e);
+    }
+}
+
+const placeOrders = async (req, res, next)=>{
+    try{
         const body = req.body;
         let orders = body.orders
         let multipleOrders = await Order.insertMany(orders)
-        // const order = await new Order(req.body);
-        // await order.save();
+
         return res.status(200).send({
             'response': {
                 'message': "order",
@@ -117,6 +131,7 @@ const deleteOrder = async (req, res, next)=>{
 
 module.exports = {
     placeOrder,
+    placeOrders,
     getAllOrders,
     getOrder,
     updateOrder,
