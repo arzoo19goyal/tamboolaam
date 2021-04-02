@@ -9,6 +9,22 @@ const insertRestaurant = async (req, res, next)=>{
                 'restaurant': newRestaurant
             }
         })
+    } catch(e){
+        next(e);
+    }
+}
+
+const insertRestaurants = async (req, res, next)=>{
+    try{
+        const body = req.body;
+        let restaurants = body.restaurants
+        let multipleRestaurants = await Restaurant.insertMany(restaurants);
+
+        return res.status(200).send({
+            'response': {
+                'restaurant': multipleRestaurants
+            }
+        })
     } catch(e) {
         next(e);
     }
@@ -100,6 +116,7 @@ const deleteRestaurant = async (req, res, next)=>{
 
 module.exports = {
     insertRestaurant,
+    insertRestaurants,
     getAllRestaurants,
     getRestaurant,
     upadteRestaurant,
