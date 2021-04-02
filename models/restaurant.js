@@ -27,6 +27,10 @@ const restaurantSchema = mongoose.Schema({
             type: String
         }
     },
+    rating:{type:Number},
+    contact:{type:String},
+    email:{type:String},
+    logo:{type:String},
     staff:[{
         user_id:{type:String},
         role:{type:String}
