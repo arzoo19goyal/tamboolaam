@@ -15,9 +15,26 @@ const itemSchema = mongoose.Schema({
     restaurant_id:{
         type: String
     },
+    is_veg:{
+        type:Boolean,
+        default:true
+    },
+    restaurant_name:{
+        type: String
+    },
+    cuisine:{
+        type: String
+    },
+    item_image:{
+        type: String
+    },
     price: {
         type: Number,
         required:true
+    },
+    is_featured:{
+      type:Boolean,
+      default:false
     },
     nutrition_details:{
         type:Object
