@@ -1,23 +1,23 @@
 const mongoose = require('mongoose');
 var timestamps = require('mongoose-timestamp');
  
-const categorySchema = mongoose.Schema({
-    category_value: {
+const cuisineSchema = mongoose.Schema({
+    cuisine_value: {
         type: String,
         required:true
     },
-    category_slug: {
+    cuisine_slug: {
         type: String,
     },
-    category_type: {
+    cuisine_type: {
         type: String
     },
     description: {
         type: String
     },
-    category_sub_type: {
+    cuisine_sub_type: {
         type: String
     }
 });
-categorySchema.plugin(timestamps);
-exports.Category = mongoose.model('Category', categorySchema);
+cuisineSchema.plugin(timestamps);
+exports.Cuisine = mongoose.model('Cuisine', cuisineSchema);

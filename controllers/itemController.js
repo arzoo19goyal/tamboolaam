@@ -2,6 +2,7 @@ const {Item} = require('../models/item');
 
 const insertItem = async (req, res, next)=>{
     try{
+        console.log(req.body)
         const newItem = await new Item(req.body);
         await newItem.save();
         return res.status(200).send({

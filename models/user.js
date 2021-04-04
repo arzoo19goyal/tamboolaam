@@ -24,6 +24,9 @@ const userSchema = mongoose.Schema({
     require: true,
     unique: true
   },
+  order_count: {
+    type: Number
+  },
   user_type: {
     type: String,
     required: true
@@ -49,8 +52,11 @@ const userSchema = mongoose.Schema({
     }
   }],
   is_online: {
-    type: String,
+    type: Boolean,
     default: true
+  },
+  driving_license:{
+    type:String
   }
 });
 

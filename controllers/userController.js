@@ -192,11 +192,50 @@ const verifyOTP = async (req, res, next)=>{
       });
 }
 
+const getAllUsers = async (req, res, next) => {
+    try {
+        const page = Number(req.query.limit)*((req.query.page)-1) || 0;
+        const limit = Number(req.query.limit) || 10;
+        var query = {}
 
+        if(req.query.user_type){
+            query.user_type = req.query.user_type;
+        }
+        // if(req.query.category){
+        //     query.category = req.query.category;
+        // }
+        // if(req.query.restaurant_id){
+        //     query.restaurant_id = req.query.restaurant_id;
+        // }
+
+        const allUsers = await User.find(query).skip(page).limit(limit);
+        var count = await User.count(query);
+        if(allUsers){
+            // console.log(allUsers);
+             return res.status(200).send({
+                'response': {
+                    'message': "All users",
+                    'result': allUsers,
+                    'count': count
+                }
+            })
+        }
+        else {
+            return res.status(400).send({
+                'response': {
+                    'message': "no users found"
+                }
+            })
+        }
+    } catch(e){
+        next(e)
+    }
+}
 module.exports = {
     userSignup,
     userLogin,
     deleteUser,
     sendOTP,
-    verifyOTP
+    verifyOTP,
+    getAllUsers
 }
