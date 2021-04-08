@@ -86,12 +86,11 @@ const getAllOrders = async (req, res, next) => {
 const getOrder = async (req, res, next)=> {
     try{
         const order = await Order.findById(req.params.id);
-        if(order){
-            return res.status(order ? 200 : 400).send({
-                'response': {
-                    'message': order ? order : "no order found"
-                }
-            })        }
+        return res.status(200).send({
+            'response': {
+                'message': order
+            }
+        })
     } catch(e) {
         next(e);
     }
@@ -99,14 +98,13 @@ const getOrder = async (req, res, next)=> {
 
 const updateOrder = async (req, res, next)=>{
     try{
-        const update = await Order.findByIdAndUpdate(req.params.id, { $set:req.body});
-        if(update){
-            return res.status(update ? 200 : 400).send({
-                'response': {
-                    'message': update ? "Order updated successfully" : "no order"
-                }
-            })
-        }
+        const update = await Order.findByIdAndUpdate(req.params.id, { $set:req.body}, {new: true});
+        return res.status(200).send({
+            'response':{
+                'message': 'Order updated successfully',
+                'result': update
+            }
+        })
     } catch(e){
         next(e);
     }
@@ -114,14 +112,12 @@ const updateOrder = async (req, res, next)=>{
 
 const deleteOrder = async (req, res, next)=>{
     try{
-        const order = await Order.findByIdAndDelete(req.params.id);
-        if(order){
-            return res.status(order ? 200: 400).send({
-                'response': {
-                    'message': order ? 'Order deleted' : "order not found"
-                }
-            })
-        }
+        await Order.findByIdAndDelete(req.params.id);
+        return res.status(200).send({
+            'response': {
+                'message': 'Order deleted'
+            }
+        })
     } catch(e){
         next(e);
     }
