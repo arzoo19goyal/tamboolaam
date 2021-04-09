@@ -1,7 +1,7 @@
 const { Restaurant } = require('../models/restaurant');
 
-const insertRestaurant = async (req, res, next)=>{
-    try{
+const insertRestaurant = async (req, res, next) => {
+    try {
         const newRestaurant = await new Restaurant(req.body);
         await newRestaurant.save();
         return res.status(200).send({
@@ -9,13 +9,13 @@ const insertRestaurant = async (req, res, next)=>{
                 'restaurant': newRestaurant
             }
         })
-    } catch(e){
+    } catch (e) {
         next(e);
     }
 }
 
-const insertRestaurants = async (req, res, next)=>{
-    try{
+const insertRestaurants = async (req, res, next) => {
+    try {
         const body = req.body;
         let restaurants = body.restaurants
         let multipleRestaurants = await Restaurant.insertMany(restaurants);
@@ -25,7 +25,7 @@ const insertRestaurants = async (req, res, next)=>{
                 'restaurant': multipleRestaurants
             }
         })
-    } catch(e) {
+    } catch (e) {
         next(e);
     }
 }
@@ -36,10 +36,10 @@ const getAllRestaurants = async (req, res, next) => {
         const limit = Number(req.query.limit) || 10;
         var query = {}
 
-        if(req.body.address){
+        if (req.body.address) {
             query.address = req.body.address;
         }
-        if(req.body.staff){
+        if (req.body.staff) {
             query.staff = req.body.staff;
         }
 
@@ -71,44 +71,39 @@ const getAllRestaurants = async (req, res, next) => {
 const getRestaurant = async (req, res, next) => {
     try {
         const restaurant = await Restaurant.findById(req.params.id);
-        if (restaurant) {
-            return res.status(restaurant ? 200 : 400).send({
-                'response': {
-                    'message': restaurant ? restaurant : "no restaurant found with this id"
-                }
-            })
-        }
+        return res.status(200).send({
+            'response': {
+                'message': restaurant
+            }
+        })
     } catch (e) {
         next(e);
     }
 }
 
 const upadteRestaurant = async (req, res, next) => {
-    try{
-        const restaurant = await Restaurant.findByIdAndUpdate(req.params.id,{$set: req.body});
-        console.log(restaurant);
-        if(restaurant){
-            return res.status(restaurant ? 200 : 400).send({
-                'response': {
-                    'message': restaurant ? "Updated successfully": "restaurant not found"
-                }
-            })
-        }
-        
-    } catch(e){
+    try {
+        const restaurant = await Restaurant.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
+        return res.status(200).send({
+            'response': {
+                'message': "Updated successfully",
+                'result': restaurant
+            }
+        })
+    } catch (e) {
         next(e);
     }
 }
 
-const deleteRestaurant = async (req, res, next)=>{
-    try{
+const deleteRestaurant = async (req, res, next) => {
+    try {
         await Restaurant.findByIdAndDelete(req.params.id)
         return res.status(200).send({
             'response': {
                 'message': 'Restaurant deleted'
             }
         })
-    } catch(e){
+    } catch (e) {
         next(e);
     }
 }
