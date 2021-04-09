@@ -15,8 +15,6 @@ const validateOrder = async (req, res, next) => {
     }
 }
 
-
-
 module.exports = {
     validateOrder
 }
