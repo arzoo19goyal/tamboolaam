@@ -1,7 +1,7 @@
-const {Category} = require('../models/category');
+const { Category } = require('../models/category');
 
-const insertCategory = async (req, res, next)=>{
-    try{
+const insertCategory = async (req, res, next) => {
+    try {
         const newCategory = await new Category(req.body);
         await newCategory.save();
         return res.status(200).send({
@@ -9,13 +9,13 @@ const insertCategory = async (req, res, next)=>{
                 'Category': newCategory
             }
         })
-    } catch(e){
+    } catch (e) {
         next(e);
     }
 }
 
-const insertCategorys = async (req, res, next)=>{
-    try{
+const insertCategorys = async (req, res, next) => {
+    try {
         const body = req.body;
         let categorys = body.categorys
         let multipleCategorys = await Category.insertMany(categorys);
@@ -25,32 +25,32 @@ const insertCategorys = async (req, res, next)=>{
                 'Category': multipleCategorys
             }
         })
-    } catch(e){
+    } catch (e) {
         next(e)
     }
 }
 
 const getAllCategorys = async (req, res, next) => {
     try {
-        const page = Number(req.query.limit)*((req.query.page)-1) || 0;
+        const page = Number(req.query.limit) * ((req.query.page) - 1) || 0;
         const limit = Number(req.query.limit) || 10;
         var query = {}
 
-        if(req.query.sub_category){
+        if (req.query.sub_category) {
             query.sub_category = req.query.sub_category;
         }
-        if(req.query.category){
+        if (req.query.category) {
             query.category = req.query.category;
         }
-        if(req.query.restaurant_id){
+        if (req.query.restaurant_id) {
             query.restaurant_id = req.query.restaurant_id;
         }
 
         const allCategorys = await Category.find(query).skip(page).limit(limit);
         var count = await Category.count(query);
-        if(allCategorys){
+        if (allCategorys) {
             // console.log(allCategorys);
-             return res.status(200).send({
+            return res.status(200).send({
                 'response': {
                     'message': "All categorys",
                     'result': allCategorys,
@@ -65,7 +65,7 @@ const getAllCategorys = async (req, res, next) => {
                 }
             })
         }
-    } catch(e){
+    } catch (e) {
         next(e)
     }
 }
@@ -74,13 +74,11 @@ const getAllCategorys = async (req, res, next) => {
 const getCategory = async (req, res, next) => {
     try {
         const category = await Category.findById(req.params.id);
-        if (category) {
-            return res.status(category ? 200 : 400).send({
-                'response': {
-                    'message': category ? category : "no category found with this id"
-                }
-            })
-        }
+        return res.status(200).send({
+            'response': {
+                'message': category
+            }
+        })
     } catch (e) {
         next(e);
     }
@@ -88,29 +86,28 @@ const getCategory = async (req, res, next) => {
 
 
 const updateCategory = async (req, res, next) => {
-    try{
-        const category = await Category.findByIdAndUpdate(req.params.id,{$set: req.body});
-        console.log(category);
+    try {
+        const category = await Category.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
         return res.status(200).send({
             'response': {
-                'message': "Category updated successfully"
+                'message': "Category updated successfully",
+                'result': category
             }
         })
-        
-    } catch(e){
+    } catch (e) {
         next(e);
     }
 }
 
-const deleteCategory = async (req, res, next)=>{
-    try{
+const deleteCategory = async (req, res, next) => {
+    try {
         await Category.findByIdAndDelete(req.params.id)
         return res.status(200).send({
             'response': {
                 'message': 'Category deleted'
             }
         })
-    } catch(e){
+    } catch (e) {
         next(e);
     }
 }
