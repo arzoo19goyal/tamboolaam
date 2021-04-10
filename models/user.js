@@ -57,6 +57,9 @@ const userSchema = mongoose.Schema({
   },
   driving_license:{
     type:String
+  },
+  is_approved:{
+    type:Boolean
   }
 });
 
