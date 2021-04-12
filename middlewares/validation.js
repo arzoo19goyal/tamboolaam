@@ -1,4 +1,3 @@
-const {User} = require('../models/user');
 const {Order} = require('../models/order');
 const {Restaurant} = require('../models/restaurant');
 const {Item} = require('../models/item');
@@ -7,7 +6,6 @@ const {Category} = require('../models/category');
 const {Cuisine} = require('../models/cuisine');
 const {SwitchScreen} = require('../models/switchscreen');
 
-const ObjectId = require('mongoose').Types.ObjectId;
 
 const validateUser = async (req, res, next)=>{
     try{
@@ -22,6 +20,15 @@ const validateUser = async (req, res, next)=>{
             })
         }
 
+        if(user_type === 'driver' && order_count > 0){
+            return res.status(400).send({
+                'error': {
+                    'error': 'Invalid',
+                    'message': 'order count has to be zero for the new user'
+                }
+            })
+        }
+
         next();
     } catch(e){
         next(e);
@@ -30,30 +37,28 @@ const validateUser = async (req, res, next)=>{
 
 const validatePlaceOrder = async(req, res, next)=>{
     try{
-        const delivery_date = new Date(req.body.delivery_date);
-        const order_date = new Date(req.body.order_date);
-        
-        //getting only date
-        let dd = order_date.getDate();
-        let mm = order_date.getMonth();
-        let yy = order_date.getFullYear();
-        let orderDate = new Date(yy, mm, dd);
-        
-        //convert delivery_date and order_date in milliseconds to compare which date is bigger
-        delivery_date_inms = delivery_date.getTime();
-        order_date_inms = order_date.getTime();
+        const delivery_date = req.body.delivery_date;
+        const order_date = req.body.order_date;
 
-        //getting only current date
-        let date = new Date();
-        let d = date.getDate();
-        let m = date.getMonth();
-        let y = date.getFullYear();
-        date = new Date(y,m,d);
+        let od = new Date(order_date);
+        let ml = od.getMilliseconds();
+        let s = od.getSeconds();
+        s = "" + s + ml
+        let orderDate = order_date - parseInt(s);
 
+        let current_date = new Date();
+        current_date_inms = current_date.getTime();
+        let cms = current_date.getMilliseconds();
+        let cs = current_date.getSeconds();
+        cs = "" + cs +cms
+        let currentDate = current_date - parseInt(cs);
+
+        console.log(currentDate)
+        console.log(orderDate)
 
         //check if order date is current date
-        if(orderDate.toString() == date.toString()){
-            if(delivery_date_inms < order_date_inms){
+        if(orderDate === currentDate){
+            if(delivery_date < order_date){
                 return res.status(400).send({
                     'error': {
                         'error': 'Invalid order date or delivery date',
@@ -115,29 +120,28 @@ const validateUpdateOrder = async (req, res, next)=>{
             })
         }
 
-        const delivery_date = new Date(req.body.delivery_date);
-        const order_date = new Date(req.body.order_date);
-        
-        //getting only date
-        let dd = order_date.getDate();
-        let mm = order_date.getMonth();
-        let yy = order_date.getFullYear();
-        let orderDate = new Date(yy, mm, dd);
-        
-        //convert delivery_date and order_date in milliseconds to compare which date is bigger
-        delivery_date_inms = delivery_date.getTime();
-        order_date_inms = order_date.getTime();
+        const delivery_date = req.body.delivery_date;
+        const order_date = req.body.order_date;
 
-        //getting only current date
-        let date = new Date();
-        let d = date.getDate();
-        let m = date.getMonth();
-        let y = date.getFullYear();
-        date = new Date(y,m,d);
+        let od = new Date(order_date);
+        let ml = od.getMilliseconds();
+        let s = od.getSeconds();
+        s = "" + s + ml
+        let orderDate = order_date - parseInt(s);
+
+        let current_date = new Date();
+        current_date_inms = current_date.getTime();
+        let cms = current_date.getMilliseconds();
+        let cs = current_date.getSeconds();
+        cs = "" + cs +cms
+        let currentDate = current_date - parseInt(cs);
+
+        console.log(currentDate)
+        console.log(orderDate)
 
         //check if order date is current date
-        if(orderDate.toString() == date.toString()){
-            if(delivery_date_inms < order_date_inms){
+        if(orderDate === currentDate){
+            if(delivery_date < order_date){
                 return res.status(400).send({
                     'error': {
                         'error': 'Invalid order date or delivery date',

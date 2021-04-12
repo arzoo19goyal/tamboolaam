@@ -20,13 +20,7 @@ const userSignup = async (req, res, next) => {
 			let password = await bcrypt.hash(req.body.password, 10)
 			let user;
 			if (password) {
-				user = new User({
-					name: req.body.name,
-					email: req.body.email,
-					password: password,
-					phone: req.body.phone,
-					user_type: req.body.user_type
-				});
+				user = new User(req.body);
 				user = await user.save()
 			}
 			return res.status(201).send({
@@ -159,7 +153,7 @@ const verifyOTP = async (req, res, next) => {
 
 				}
 			}
-			else if (req.body.user_type == 'staff') {
+			else if (req.body.user_type == 'admin' || req.body.user_type == 'driver' || req.body.user_type == 'manager') {
 				var user = await User.findOne({ phone: Number(req.body.phone) })
 				return res.status(user ? 200 : 401).send({
 					'response': {
