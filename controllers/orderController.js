@@ -59,6 +59,19 @@ const getAllOrders = async (req, res, next) => {
         if(req.query.driver_id){
             query.driver_id=req.query.driver_id
         }
+        if(req.query.start_date && req.query.end_date){
+            let start_date = req.query.start_date;
+            let end_date = req.query.end_date;
+            query.order_date = {$gte: start_date}&&{$lte: end_date};
+        }
+        if(req.query.start_date && !req.query.end_date){
+            let start_date = req.query.start_date;
+            query.order_date = {$gte: start_date};
+        }
+        if(req.query.end_date && !req.query.start_date){
+            let end_date = req.query.end_date;
+            query.order_date = {$lte: end_date};
+        }
         const allOrders = await Order.find(query).skip(page).limit(limit);
         var count = await Order.count(query);
         if(allOrders){

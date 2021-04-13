@@ -71,10 +71,10 @@ const orderSchema = mongoose.Schema({
     default:'placed'
   },
   delivery_date: {
-    type: Date
+    type: Number
   },
   order_date: {
-    type: Date
+    type: Number
   },
   subscription_id:{
     type: String

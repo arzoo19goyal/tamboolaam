@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 
 const {userSignup, userLogin, deleteUser, sendOTP, verifyOTP,getAllUsers} = require('../controllers/userController');
+const { validateUser } = require('../middlewares/validation');
 
-router.post('/signup',userSignup);
+router.post('/signup', validateUser, userSignup);
 
 router.post('/login', userLogin);
 

@@ -75,13 +75,11 @@ const getAllSwitchScreens = async (req, res, next) => {
 const getSwitchScreen = async (req, res, next) => {
     try {
         const switchscreen = await SwitchScreen.findById(req.params.id);
-        if (switchscreen) {
-            return res.status(switchscreen ? 200 : 400).send({
-                'response': {
-                    'message': switchscreen ? switchscreen : "no switchscreen found with this id"
-                }
-            })
-        }
+        return res.status(200).send({
+            'response': {
+                'message': switchscreen
+            }
+        })
     } catch (e) {
         next(e);
     }
@@ -90,11 +88,12 @@ const getSwitchScreen = async (req, res, next) => {
 
 const updateSwitchScreen = async (req, res, next) => {
     try{
-        const switchscreen = await SwitchScreen.findByIdAndUpdate(req.params.id,{$set: req.body});
+        const switchscreen = await SwitchScreen.findByIdAndUpdate(req.params.id,{$set: req.body}, {new: true});
         console.log(switchscreen);
         return res.status(200).send({
             'response': {
-                'message': "SwitchScreen updated successfully"
+                'message': "SwitchScreen updated successfully",
+                'result': switchscreen
             }
         })
         
