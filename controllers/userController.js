@@ -17,11 +17,18 @@ const userSignup = async (req, res, next) => {
 			})
 		}
 		else {
-			let password = await bcrypt.hash(req.body.password, 10)
-			let user;
-			if (password) {
-				user = new User(req.body);
+			let user_type = req.body.user_type;
+			if(user_type === 'admin' || user_type === 'manager' || user_type === 'driver'){
+				let user = new User(req.body);
 				user = await user.save()
+			}
+			else{
+				let password = await bcrypt.hash(req.body.password, 10)
+				let user;
+				if (password) {
+					user = new User(req.body);
+					user = await user.save()
+				}
 			}
 			return res.status(201).send({
 				'response': {
